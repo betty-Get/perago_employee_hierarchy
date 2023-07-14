@@ -3,14 +3,14 @@ const mongoose = require("mongoose");
 const treesSchema = new mongoose.Schema({
   name: {
     type: String,
-    required,
+    required: true,
   },
   description: {
     type: String,
-    required,
+    required: true,
   },
   parentId: {
-    type: Number,
+    type: String,
   },
 });
 

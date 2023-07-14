@@ -2,21 +2,19 @@ const { treeSchema } = require("../model/tree");
 const express = require("express");
 
 const router = express.Router();
+//router.use(bodyParser.urlencoded({ extended: false }));
 
 //post trees
-router.post =
-  ("/addTree",
-  async (req, res) => {
-    // const parentId = req.params;
-    const { name, description } = req.body;
-    try {
-      const parent = await treeSchema.create({ name, description });
-      return res.status(200).json(parent);
-    } catch (error) {
-      res.status(500).json(error);
-      console.log(error);
-    }
-  });
+router.post("/addTrees", async (req, res) => {
+  try {
+    const { name, description, parentId } = req.body;
+    const parent = await treeSchema.create({ name, description, parentId });
+    res.status(200).json(parent);
+  } catch (error) {
+    res.status(500).json(error);
+    console.log(error);
+  }
+});
 
 //get all trees
 router.get("/allTrees", async (req, res) => {
