@@ -30,7 +30,7 @@ router.get("/allTrees", async (req, res) => {
 });
 
 //update trees
-router.patch("/updateTree", async (req, res) => {
+router.patch("/updateTree/:id", async (req, res) => {
   const { id } = req.params;
   const { name, description } = req.body;
   try {
@@ -39,7 +39,7 @@ router.patch("/updateTree", async (req, res) => {
       { name, description },
       { new: true }
     );
-    res.json(updated);
+    res.status(200).json(updated);
   } catch (error) {
     res.status(500).json(error);
     console.log(error);
@@ -47,9 +47,15 @@ router.patch("/updateTree", async (req, res) => {
 });
 
 //remove trees
-const removeTrees = async (req, res) => {
+router.delete("/deleteTree/:id", async (req, res) => {
   const { id } = req.params;
+  try {
+    const deleted = await treeSchema.findByIdAndRemove({ _id: id });
+    res.status(200).json({ mssg: "deleted successfully" });
+  } catch (error) {
+    res.status(500).json(error);
+    console.log(error);
+  }
+});
 
-  const deleted = await treeSchema.findByIdAndRemove({ _id: id });
-  res.json({ mssg: "deleted successfully" });
-};
+module.exports = router;
