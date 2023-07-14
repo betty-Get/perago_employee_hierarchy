@@ -3,4 +3,53 @@ const express = require("express");
 
 const router = express.Router();
 
-router.post = ("/addTree", () => {});
+//post trees
+router.post =
+  ("/addTree",
+  async (req, res) => {
+    // const parentId = req.params;
+    const { name, description } = req.body;
+    try {
+      const parent = await treeSchema.create({ name, description });
+      return res.status(200).json(parent);
+    } catch (error) {
+      res.status(500).json(error);
+      console.log(error);
+    }
+  });
+
+//get all trees
+router.get("/allTrees", async (req, res) => {
+  try {
+    const trees = await treeSchema.find();
+    res.status(200).json(trees);
+  } catch (error) {
+    res.status(500).json(error);
+    console.log(error);
+  }
+});
+
+//update trees
+router.patch("/updateTree", async (req, res) => {
+  const { id } = req.params;
+  const { name, description } = req.body;
+  try {
+    const updated = await treeSchema.findByIdAndUpdate(
+      { _id: id },
+      { name, description },
+      { new: true }
+    );
+    res.json(updated);
+  } catch (error) {
+    res.status(500).json(error);
+    console.log(error);
+  }
+});
+
+//remove trees
+const removeTrees = async (req, res) => {
+  const { id } = req.params;
+
+  const deleted = await treeSchema.findByIdAndRemove({ _id: id });
+  res.json({ mssg: "deleted successfully" });
+};
