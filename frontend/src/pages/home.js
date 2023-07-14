@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import { Button } from "@mantine/core";
 
 function Home() {
   const [trees, setTrees] = useState([]);
@@ -22,15 +23,31 @@ function Home() {
   }, []);
 
   return (
-    <div>
-      {/* {console.log(trees)} */}
-      <p>hello</p>
-      <p>buy</p>
+    <div className="my-10 mx-14">
+      <Button
+        className="bg-black hover:bg-indigo-400 ml-5"
+        radius="md"
+        size="md"
+      >
+        Add Folder
+      </Button>
+      <Button
+        className="bg-black hover:bg-indigo-400 ml-5"
+        radius="md"
+        size="md"
+      >
+        Add File
+      </Button>
+
+      {/* {trees &&
+        trees.filter((tree) => {
+          const newTree = tree.parentId === "";
+          console.log(newTree);
+        })} */}
       {trees ? (
         trees.map((tree) => (
-          <div key={tree._id}>
+          <div key={tree._id} className="">
             <p>{tree.name}</p>
-            <p>{tree.description}</p>
           </div>
         ))
       ) : (
