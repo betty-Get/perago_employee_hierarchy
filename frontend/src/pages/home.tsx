@@ -2,8 +2,13 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { Button } from "@mantine/core";
 
+interface trees {
+  map(arg0: (tree: any) => JSX.Element): import("react").ReactNode;
+  _id: number;
+  name: string;
+}
 function Home() {
-  const [trees, setTrees] = useState([]);
+  const [trees, setTrees] = useState<trees | undefined>();
 
   const getTrees = async () => {
     try {
