@@ -18,7 +18,7 @@ function App() {
       <BrowserRouter>
         <Navbar />
         <Routes>
-          <Route index path="/Home" element={<Home />} />
+          <Route index path="/" element={<Home />} />
           <Route path="/addTree" element={<AddForm />} />
         </Routes>
       </BrowserRouter>

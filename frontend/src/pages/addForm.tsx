@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
-import { yupResolver } from "@hookform/resolvers/yup";
-import * as yup from "yup";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { Button } from "@mantine/core";
 
@@ -9,16 +8,11 @@ interface treeForm {
   map(arg0: (tree: any) => JSX.Element): import("react").ReactNode;
   name: string;
   description: string;
-  _id: string;
   names: string;
 }
 
-const schema = yup.object().shape({
-  name: yup.string().required(),
-  description: yup.string().required(),
-  names: yup.string(),
-});
 function AddForm() {
+  const navigate = useNavigate();
   const [trees, setTrees] = useState([]);
   const {
     register,
@@ -44,7 +38,19 @@ function AddForm() {
   useEffect(() => {
     getTrees();
   }, []);
-  const submitForm = (data: treeForm) => console.log(data);
+
+  const submitForm = async (data: treeForm) => {
+    try {
+      await axios.post(
+        "http://localhost:5000/api/treeStructure/addTrees/",
+        data
+      );
+      alert("data added");
+      navigate("/");
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <div>
@@ -55,7 +61,6 @@ function AddForm() {
         <label className="pr-3">name</label>
         <input
           type="string"
-          // name="name"
           className="shadow appearance-none border rounded w-[180px] py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
           {...register("name", { required: true, minLength: 3, maxLength: 20 })}
         />
@@ -65,11 +70,16 @@ function AddForm() {
           <label className="pr-3">description</label>
           <input
             type="string"
-            // name="description"
             className="shadow appearance-none border rounded w-[180px] py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-            {...register("description")}
+            {...register("description", {
+              required: true,
+              minLength: 6,
+              maxLength: 30,
+            })}
           />
-          {/* {errors.description?.message} */}
+          <p className="block text-red-600 font-[13px]">
+            {errors.description?.message}
+          </p>
         </div>
 
         <div className="block mb-3">
@@ -78,9 +88,9 @@ function AddForm() {
             <option></option>
             {trees &&
               trees.map((tree: any) => (
-                <>
-                  <option value={tree._id}>{tree.name}</option>
-                </>
+                <option key={tree._id} value={tree._id}>
+                  {tree.name}
+                </option>
               ))}
           </select>
         </div>
