@@ -4,6 +4,7 @@ import "./index.css";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Navbar from "./component/navbar";
 import Home from "./pages/home";
+import AddForm from "./pages/addForm";
 
 function App() {
   const form = useForm({
@@ -17,7 +18,8 @@ function App() {
       <BrowserRouter>
         <Navbar />
         <Routes>
-          <Route path="/Home" element={<Home />} />
+          <Route index path="/Home" element={<Home />} />
+          <Route path="/addTree" element={<AddForm />} />
         </Routes>
       </BrowserRouter>
     </MantineProvider>
