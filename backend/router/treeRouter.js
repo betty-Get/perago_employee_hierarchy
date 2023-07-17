@@ -28,6 +28,19 @@ router.get("/allTrees", async (req, res) => {
   }
 });
 
+//get single role ... employee-roles
+router.get("/:roleId", async (req, res) => {
+  const { roleId } = req.params;
+
+  try {
+    const role = await treeSchema.findById({ _id: roleId });
+    res.status(200).json(role);
+  } catch (error) {
+    res.status(500).json(error);
+    console.log(error);
+  }
+});
+
 //update trees
 router.patch("/updateEmployeeRole/:roleId", async (req, res) => {
   const { roleId } = req.params;
