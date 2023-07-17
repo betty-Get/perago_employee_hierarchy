@@ -8,12 +8,6 @@ import AddEmployeeRole from "./pages/addEmployeeRole";
 import EditEmployeeRole from "./pages/editEmployeeRole";
 
 function App() {
-  const form = useForm({
-    initialValues: {
-      name: "",
-      email: "",
-    },
-  });
   return (
     <MantineProvider>
       <BrowserRouter>

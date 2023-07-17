@@ -5,6 +5,7 @@ import axios from "axios";
 import { useDisclosure } from "@mantine/hooks";
 import { Modal, Group, Button } from "@mantine/core";
 import { roleDataType } from "../types/roleDataType";
+import roleProvider from "../service/roleProvider";
 
 function EditEmployeeRole() {
   const [opened, { open, close }] = useDisclosure(false);
@@ -16,15 +17,17 @@ function EditEmployeeRole() {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<roleDataType>();
+    reset,
+  } = useForm<roleDataType>({
+    defaultValues: role,
+  });
 
   const getRole = async () => {
     try {
-      const response = await axios.get(
-        `http://localhost:5000/api/treeStructure/${params.roleId}`
-      );
-      setRole(response.data);
-      console.log(response.data);
+      const response = await roleProvider.getRole(params.roleId);
+      setRole(response);
+      reset(response);
+      // console.log(response.data);
       return;
     } catch (error) {
       console.log(error);
@@ -33,15 +36,12 @@ function EditEmployeeRole() {
 
   useEffect(() => {
     getRole();
-  }, []);
+  }, [reset]);
 
   const editRole = async (data: roleDataType) => {
     try {
       console.log(data);
-      await axios.patch(
-        `http://localhost:5000/api/treeStructure/updateEmployeeRole/${params.roleId}`,
-        data
-      );
+      await await roleProvider.editRole(params.roleId, data);
       alert("data updated");
       navigate("/");
     } catch (error) {
@@ -52,10 +52,10 @@ function EditEmployeeRole() {
   const deleteRole = async () => {
     console.log(`inside delete role ${params.roleId}`);
     try {
-      await axios.delete(
-        `http://localhost:5000/api/treeStructure/deleteEmployeeRole/${params.roleId}`
-      );
-      return navigate("/");
+      await roleProvider.deleteRole(params.roleId);
+      return setTimeout(() => {
+        navigate("/");
+      }, 1000);
     } catch (error) {
       console.log(error);
     }
@@ -108,7 +108,6 @@ function EditEmployeeRole() {
         <span>
           {" "}
           <Button
-            type="submit"
             className="bg-black hover:bg-indigo-400 ml-5"
             radius="md"
             size="md"
