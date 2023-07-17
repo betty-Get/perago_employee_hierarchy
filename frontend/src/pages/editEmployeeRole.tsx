@@ -2,7 +2,8 @@ import React, { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
-import { Button } from "@mantine/core";
+import { useDisclosure } from "@mantine/hooks";
+import { Modal, Group, Button } from "@mantine/core";
 
 interface roleDataType {
   name: string;
@@ -10,9 +11,10 @@ interface roleDataType {
 }
 
 function EditEmployeeRole() {
+  const [opened, { open, close }] = useDisclosure(false);
   const navigate = useNavigate();
   const params = useParams();
-  // const [roles, setRoles] = useState<roleDataType>();
+  const [role, setRole] = useState<roleDataType>();
 
   const {
     register,
@@ -22,22 +24,22 @@ function EditEmployeeRole() {
     //  resolver: yupResolver<yup.AnyObject>(schema),
   });
 
-  // const getRoles = async () => {
-  //   try {
-  //     const response = await axios.get(
-  //       "http://localhost:5000/api/treeStructure/allTrees/"
-  //     );
-  //     setRoles(response.data);
-  //     //   console.log(response.data);
-  //     return;
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // };
+  const getRole = async () => {
+    try {
+      const response = await axios.get(
+        `http://localhost:5000/api/treeStructure/${params.roleId}`
+      );
+      setRole(response.data);
+      console.log(response.data);
+      return;
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
-  // useEffect(() => {
-  //   getRoles();
-  // }, []);
+  useEffect(() => {
+    getRole();
+  }, []);
 
   const editRole = async (data: roleDataType) => {
     try {
@@ -53,8 +55,25 @@ function EditEmployeeRole() {
     }
   };
 
+  const deleteRole = async () => {
+    console.log(`inside delete role ${params.roleId}`);
+    try {
+      await axios.delete(
+        `http://localhost:5000/api/treeStructure/deleteEmployeeRole/${params.roleId}`
+      );
+      return navigate("/");
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <div>
+      <Modal opened={opened} onClose={close} title="Are you sure?" centered>
+        <button onClick={deleteRole}>Yes</button>
+        <button onClick={close}>No</button>
+      </Modal>
+
       <form
         onSubmit={handleSubmit(editRole)}
         className="bg-white w-[500px] mx-10 my-10 shadow-md rounded px-8 pt-6 pb-8 mb-4"
@@ -62,7 +81,7 @@ function EditEmployeeRole() {
         <label className="pr-3">name</label>
         <input
           type="string"
-          // value={roles.name}
+          // value={role.name}
           className="shadow appearance-none border rounded w-[180px] py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
           {...register("name", { required: true, minLength: 3, maxLength: 20 })}
         />
@@ -91,6 +110,19 @@ function EditEmployeeRole() {
         >
           Edit
         </Button>
+
+        <span>
+          {" "}
+          <Button
+            type="submit"
+            className="bg-black hover:bg-indigo-400 ml-5"
+            radius="md"
+            size="md"
+            onClick={open}
+          >
+            delete
+          </Button>
+        </span>
       </form>
     </div>
   );
