@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { Button } from "@mantine/core";
 import { roleDataType } from "../types/roleDataType";
+import roleProvider from "../service/roleProvider";
 
 function AddEmployeeRole() {
   const navigate = useNavigate();
@@ -12,16 +13,12 @@ function AddEmployeeRole() {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<roleDataType>({
-    //  resolver: yupResolver<yup.AnyObject>(schema),
-  });
+  } = useForm<roleDataType>();
 
   const getRoles = async () => {
     try {
-      const response = await axios.get(
-        "http://localhost:5000/api/treeStructure/allTrees/"
-      );
-      setRoles(response.data);
+      const response = await roleProvider.getRoles();
+      setRoles(response);
       //   console.log(response.data);
       return;
     } catch (error) {
@@ -36,10 +33,7 @@ function AddEmployeeRole() {
   const submitForm = async (data: roleDataType) => {
     try {
       console.log(data);
-      await axios.post(
-        "http://localhost:5000/api/treeStructure/addTrees/",
-        data
-      );
+      await roleProvider.addRoles(data);
       alert("data added");
       navigate("/");
     } catch (error) {
@@ -91,11 +85,11 @@ function AddEmployeeRole() {
         </div>
         <Button
           type="submit"
-          className="bg-black hover:bg-indigo-400 ml-5"
+          className=" hover:text-slate-700 hover:bg-white ml-5 text-lime-700 text-[25px] font-serif font-semibold"
           radius="md"
           size="md"
         >
-          submit
+          Submit
         </Button>
       </form>
     </div>

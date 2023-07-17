@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
 import { Button } from "@mantine/core";
 import RolesDisplay from "../component/rolesDisplay";
 import roleProvider from "../service/roleProvider";

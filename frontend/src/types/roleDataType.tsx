@@ -4,3 +4,7 @@ export interface roleDataType {
   description: string;
   parentId: string;
 }
+
+export interface dataType {
+  roles: roleDataType[];
+}
