@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import { Button } from "@mantine/core";
 
@@ -8,13 +8,11 @@ interface roleDataType {
   name: string;
   description: string;
 }
-interface roles {
-  roles: [];
-}
 
 function EditEmployeeRole() {
   const navigate = useNavigate();
-  const [roles, setRoles] = useState<roleDataType>();
+  const params = useParams();
+  // const [roles, setRoles] = useState<roleDataType>();
 
   const {
     register,
@@ -24,32 +22,32 @@ function EditEmployeeRole() {
     //  resolver: yupResolver<yup.AnyObject>(schema),
   });
 
-  const getRoles = async () => {
-    try {
-      const response = await axios.get(
-        "http://localhost:5000/api/treeStructure/allTrees/"
-      );
-      setRoles(response.data);
-      //   console.log(response.data);
-      return;
-    } catch (error) {
-      console.log(error);
-    }
-  };
+  // const getRoles = async () => {
+  //   try {
+  //     const response = await axios.get(
+  //       "http://localhost:5000/api/treeStructure/allTrees/"
+  //     );
+  //     setRoles(response.data);
+  //     //   console.log(response.data);
+  //     return;
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // };
 
-  useEffect(() => {
-    getRoles();
-  }, []);
+  // useEffect(() => {
+  //   getRoles();
+  // }, []);
 
   const editRole = async (data: roleDataType) => {
     try {
       console.log(data);
-      // await axios.post(
-      //   "http://localhost:5000/api/treeStructure/addTrees/",
-      //   data
-      // );
-      // alert("data added");
-      // navigate("/");
+      await axios.patch(
+        `http://localhost:5000/api/treeStructure/updateEmployeeRole/${params.roleId}`,
+        data
+      );
+      alert("data updated");
+      navigate("/");
     } catch (error) {
       console.log(error);
     }
