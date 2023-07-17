@@ -3,6 +3,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import { useDisclosure } from "@mantine/hooks";
 import { Modal, Group, Button } from "@mantine/core";
+import roleProvider from "../service/roleProvider";
 
 function RoleComponent(role: any) {
   const [opened, { open, close }] = useDisclosure(false);
@@ -12,11 +13,9 @@ function RoleComponent(role: any) {
 
   const getRoles = async () => {
     try {
-      const response = await axios.get(
-        "http://localhost:5000/api/treeStructure/allTrees/"
-      );
-      setRoles(response.data);
-      //   console.log(response.data);
+      const response = await roleProvider.getRoles();
+      setRoles(response);
+      //   console.log(response);
       return;
     } catch (error) {
       console.log(error);
@@ -67,16 +66,11 @@ function RoleComponent(role: any) {
         role.child.map((r: any) => {
           return (
             <div>
-              {/* {childRole.map((r: any) => { */}
-              {/* return ( */}
               <RoleComponent
-                // orignId={r[0]}
                 _id={r["_id"]}
                 name={r["name"]}
                 child={roles.filter((k: any) => k["parentId"] == r["_id"])}
               />
-              {/* ); */}
-              {/* })} */}
             </div>
           );
         })}

@@ -2,16 +2,15 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { Button } from "@mantine/core";
 import RolesDisplay from "../component/rolesDisplay";
+import roleProvider from "../service/roleProvider";
 
 function Home() {
   const [roles, setRoles] = useState([]);
 
   const getRoles = async () => {
     try {
-      const response = await axios.get(
-        "http://localhost:5000/api/treeStructure/allTrees/"
-      );
-      setRoles(response.data);
+      const response = await roleProvider.getRoles();
+      setRoles(response);
       //   console.log(response.data);
       return;
     } catch (error) {
