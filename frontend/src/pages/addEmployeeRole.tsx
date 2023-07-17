@@ -3,13 +3,7 @@ import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { Button } from "@mantine/core";
-
-interface treeForm {
-  map(arg0: (tree: any) => JSX.Element): import("react").ReactNode;
-  name: string;
-  description: string;
-  parentId: string;
-}
+import { roleDataType } from "../types/roleDataType";
 
 function AddEmployeeRole() {
   const navigate = useNavigate();
@@ -18,7 +12,7 @@ function AddEmployeeRole() {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<treeForm>({
+  } = useForm<roleDataType>({
     //  resolver: yupResolver<yup.AnyObject>(schema),
   });
 
@@ -39,7 +33,7 @@ function AddEmployeeRole() {
     getRoles();
   }, []);
 
-  const submitForm = async (data: treeForm) => {
+  const submitForm = async (data: roleDataType) => {
     try {
       console.log(data);
       await axios.post(

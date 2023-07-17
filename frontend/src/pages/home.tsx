@@ -3,12 +3,6 @@ import axios from "axios";
 import { Button } from "@mantine/core";
 import RolesDisplay from "../component/rolesDisplay";
 
-interface roles {
-  map(arg0: (tree: any) => JSX.Element): import("react").ReactNode;
-  _id: number;
-  name: string;
-}
-
 function Home() {
   const [roles, setRoles] = useState([]);
 
@@ -31,20 +25,9 @@ function Home() {
 
   return (
     <div className="my-10 mx-14">
-      <Button
-        className="bg-black hover:bg-indigo-400 ml-5"
-        radius="md"
-        size="md"
-      >
-        Add Folder
-      </Button>
-      <Button
-        className="bg-black hover:bg-indigo-400 ml-5"
-        radius="md"
-        size="md"
-      >
-        Add File
-      </Button>
+      <p className="text-[38px] font-serif text-lime-600 ml-9">
+        Employees Heirarcy
+      </p>
 
       {roles ? (
         <RolesDisplay roles={roles} />

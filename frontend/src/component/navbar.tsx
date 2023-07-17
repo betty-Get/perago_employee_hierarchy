@@ -6,7 +6,7 @@ function Navbar() {
   const navigate = useNavigate();
   return (
     <div>
-      <div className="h-[150px] w-full p-8 flex space-x-96">
+      <div className="h-[150px] w-full p-8 flex space-x-96 border-b shadow-xl">
         <div>
           <Button
             type="submit"

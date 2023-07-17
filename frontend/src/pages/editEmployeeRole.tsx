@@ -4,11 +4,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import { useDisclosure } from "@mantine/hooks";
 import { Modal, Group, Button } from "@mantine/core";
-
-interface roleDataType {
-  name: string;
-  description: string;
-}
+import { roleDataType } from "../types/roleDataType";
 
 function EditEmployeeRole() {
   const [opened, { open, close }] = useDisclosure(false);
@@ -20,9 +16,7 @@ function EditEmployeeRole() {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<roleDataType>({
-    //  resolver: yupResolver<yup.AnyObject>(schema),
-  });
+  } = useForm<roleDataType>();
 
   const getRole = async () => {
     try {
