@@ -4,7 +4,7 @@ import "./index.css";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Navbar from "./component/navbar";
 import Home from "./pages/home";
-import AddForm from "./pages/addForm";
+import AddEmployeeRole from "./pages/addEmployeeRole";
 
 function App() {
   const form = useForm({
@@ -19,7 +19,7 @@ function App() {
         <Navbar />
         <Routes>
           <Route index path="/" element={<Home />} />
-          <Route path="/addTree" element={<AddForm />} />
+          <Route path="/addEmployeeForm" element={<AddEmployeeRole />} />
         </Routes>
       </BrowserRouter>
     </MantineProvider>

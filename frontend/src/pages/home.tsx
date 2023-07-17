@@ -1,21 +1,23 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { Button } from "@mantine/core";
+import RolesDisplay from "../component/rolesDisplay";
 
-interface trees {
+interface roles {
   map(arg0: (tree: any) => JSX.Element): import("react").ReactNode;
   _id: number;
   name: string;
 }
-function Home() {
-  const [trees, setTrees] = useState<trees | undefined>();
 
-  const getTrees = async () => {
+function Home() {
+  const [roles, setRoles] = useState([]);
+
+  const getRoles = async () => {
     try {
       const response = await axios.get(
         "http://localhost:5000/api/treeStructure/allTrees/"
       );
-      setTrees(response.data);
+      setRoles(response.data);
       //   console.log(response.data);
       return;
     } catch (error) {
@@ -24,7 +26,7 @@ function Home() {
   };
 
   useEffect(() => {
-    getTrees();
+    getRoles();
   }, []);
 
   return (
@@ -44,17 +46,8 @@ function Home() {
         Add File
       </Button>
 
-      {/* {trees &&
-        trees.filter((tree) => {
-          const newTree = tree.parentId === "";
-          console.log(newTree);
-        })} */}
-      {trees ? (
-        trees.map((tree) => (
-          <div key={tree._id} className="">
-            <p>{tree.name}</p>
-          </div>
-        ))
+      {roles ? (
+        <RolesDisplay roles={roles} />
       ) : (
         <div role="status">
           <svg

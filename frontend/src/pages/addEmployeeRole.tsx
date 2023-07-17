@@ -8,12 +8,12 @@ interface treeForm {
   map(arg0: (tree: any) => JSX.Element): import("react").ReactNode;
   name: string;
   description: string;
-  names: string;
+  parentId: string;
 }
 
-function AddForm() {
+function AddEmployeeRole() {
   const navigate = useNavigate();
-  const [trees, setTrees] = useState([]);
+  const [roles, setRoles] = useState([]);
   const {
     register,
     handleSubmit,
@@ -22,12 +22,12 @@ function AddForm() {
     //  resolver: yupResolver<yup.AnyObject>(schema),
   });
 
-  const getTrees = async () => {
+  const getRoles = async () => {
     try {
       const response = await axios.get(
         "http://localhost:5000/api/treeStructure/allTrees/"
       );
-      setTrees(response.data);
+      setRoles(response.data);
       //   console.log(response.data);
       return;
     } catch (error) {
@@ -36,11 +36,12 @@ function AddForm() {
   };
 
   useEffect(() => {
-    getTrees();
+    getRoles();
   }, []);
 
   const submitForm = async (data: treeForm) => {
     try {
+      console.log(data);
       await axios.post(
         "http://localhost:5000/api/treeStructure/addTrees/",
         data
@@ -84,12 +85,12 @@ function AddForm() {
 
         <div className="block mb-3">
           <label className="pr-3">select parent</label>
-          <select id="names" {...register("names")}>
+          <select id="parentId" {...register("parentId")}>
             <option></option>
-            {trees &&
-              trees.map((tree: any) => (
-                <option key={tree._id} value={tree._id}>
-                  {tree.name}
+            {roles &&
+              roles.map((role: any) => (
+                <option key={role._id} value={role._id}>
+                  {role.name}
                 </option>
               ))}
           </select>
@@ -107,4 +108,4 @@ function AddForm() {
   );
 }
 
-export default AddForm;
+export default AddEmployeeRole;
