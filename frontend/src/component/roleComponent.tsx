@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
 function RoleComponent(role: any) {
+  const navigate = useNavigate();
   const [roles, setRoles] = useState([]);
 
   const getRoles = async () => {
@@ -21,11 +23,18 @@ function RoleComponent(role: any) {
     getRoles();
   }, []);
 
+  const editRole = () => {
+    navigate(`/EditEmployeeRole/${role._id}`);
+  };
+
   return (
     <div className="ml-8">
       {role.child.length > 0 && <span>+</span>}
       {role._id} {role.name} <span>+</span>
-      <span>edit</span> <span>delete</span>
+      <span>
+        <button onClick={editRole}>edit</button>
+      </span>{" "}
+      <span>delete</span>
       {role.child.length > 0 &&
         role.child.map((r: any) => {
           return (
