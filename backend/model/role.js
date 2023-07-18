@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 
-const treesSchema = new mongoose.Schema({
+const rolesSchema = new mongoose.Schema({
   name: {
     type: String,
     required: true,
@@ -14,5 +14,5 @@ const treesSchema = new mongoose.Schema({
   },
 });
 
-const treeSchema = mongoose.model("tree", treesSchema);
-exports.treeSchema = treeSchema;
+const roleSchema = mongoose.model("role", rolesSchema);
+exports.roleSchema = roleSchema;

@@ -10,7 +10,7 @@ app.use(express.json());
 app.use(cors());
 
 //middleware
-app.use("/api/treeStructure", treeRouter);
+app.use("/api/employee-role", treeRouter);
 
 //DB connection
 mongoose
