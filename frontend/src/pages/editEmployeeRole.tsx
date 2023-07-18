@@ -36,7 +36,7 @@ function EditEmployeeRole() {
 
   useEffect(() => {
     getRole();
-  }, [reset]);
+  }, []);
 
   const editRole = async (data: roleDataType) => {
     try {
