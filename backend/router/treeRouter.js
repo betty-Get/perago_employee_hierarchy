@@ -1,4 +1,5 @@
 const { roleSchema } = require("../model/role");
+const mongoose = require("mongoose");
 const express = require("express");
 
 const router = express.Router();
@@ -7,6 +8,10 @@ const router = express.Router();
 router.post("/", async (req, res) => {
   try {
     const { name, description, parentId } = req.body;
+
+    if (mongoose.Types.ObjectId.isValid(parentId)) {
+      return res.status(400).json("Incorrect Id. please try again!");
+    }
 
     const parent = await roleSchema.create({ name, description, parentId });
     res.status(200).json(parent);
@@ -32,6 +37,10 @@ router.get("/:roleId", async (req, res) => {
   const { roleId } = req.params;
 
   try {
+    if (mongoose.Types.ObjectId.isValid(roleId)) {
+      return res.status(400).json("Incorrect Id. please try again!");
+    }
+
     const role = await roleSchema.findById({ _id: roleId });
     res.status(200).json(role);
   } catch (error) {
@@ -45,6 +54,10 @@ router.patch("/:roleId", async (req, res) => {
   const { roleId } = req.params;
   const { name, description } = req.body;
   try {
+    if (mongoose.Types.ObjectId.isValid(roleId)) {
+      return res.status(400).json("Incorrect Id. please try again!");
+    }
+
     const updated = await roleSchema.findByIdAndUpdate(
       { _id: roleId },
       { name, description },
@@ -61,6 +74,10 @@ router.patch("/:roleId", async (req, res) => {
 router.delete("/:roleId", async (req, res) => {
   const { roleId } = req.params;
   try {
+    if (mongoose.Types.ObjectId.isValid(roleId)) {
+      return res.status(400).json("Incorrect Id. please try again!");
+    }
+
     const deleted = await roleSchema.findByIdAndRemove({ _id: roleId });
     res.status(200).json({ mssg: "deleted successfully" });
   } catch (error) {
