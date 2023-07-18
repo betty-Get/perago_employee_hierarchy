@@ -89,6 +89,7 @@ const FormComponent: React.FC<any> = (props) => {
             </Button>
           </span>
         )}
+        <p className="text-red-500 text-[12px]">{props.err ? props.err : ""}</p>
       </form>
     </div>
   );

@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate, useParams } from "react-router-dom";
 import { useDisclosure } from "@mantine/hooks";
@@ -13,7 +13,7 @@ function EditEmployeeRole() {
   const navigate = useNavigate();
   const params = useParams();
   const roles = useSelector((state: any) => state.roles.data);
-
+  const [error, setError] = useState(false);
   const role = roles.find((r: { _id: any }) => r._id === params.roleId);
 
   const {
@@ -45,8 +45,9 @@ function EditEmployeeRole() {
       await roleProvider.editRole(params.roleId, data);
       alert("data updated");
       navigate("/");
-    } catch (error) {
-      console.log(error);
+    } catch (err: any) {
+      setError(err.response.data);
+      setTimeout(() => navigate("/"), 1000);
     }
   };
 
@@ -56,8 +57,9 @@ function EditEmployeeRole() {
       return setTimeout(() => {
         navigate("/");
       }, 1000);
-    } catch (error) {
-      console.log(error);
+    } catch (err: any) {
+      setError(err.response.data);
+      setTimeout(() => navigate("/"), 1000);
     }
   };
 
@@ -82,6 +84,7 @@ function EditEmployeeRole() {
         deleteButton={"Delete"}
         open={open}
         role={role}
+        err={error}
       />
     </div>
   );

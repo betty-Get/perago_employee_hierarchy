@@ -11,6 +11,7 @@ function AddEmployeeRole() {
   const params = useParams();
   const parentId: string = String(params.parentId);
   const [parentRole, setParentRole] = useState<roleDataType>();
+  const [error, setError] = useState(false);
   const roles = useSelector((state: any) => state.roles.data);
 
   const {
@@ -44,11 +45,12 @@ function AddEmployeeRole() {
       if (parentId != "parent") {
         data.parentId = parentId;
       }
-      await roleProvider.addRoles(data);
+      const response = await roleProvider.addRoles(data);
       alert("data added");
       navigate("/");
-    } catch (error) {
-      console.log(error);
+    } catch (err: any) {
+      setError(err.response.data);
+      setTimeout(() => navigate("/"), 1000);
     }
   };
 
@@ -58,7 +60,7 @@ function AddEmployeeRole() {
         Add Role -- <span>{parentRole && parentRole.name}</span>
       </p>
 
-      <FormComponent submitForm={submitForm} button={"Submit"} />
+      <FormComponent submitForm={submitForm} button={"Submit"} err={error} />
 
       {/* <form
         onSubmit={handleSubmit(submitForm)}
