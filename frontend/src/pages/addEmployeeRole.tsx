@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate, useParams } from "react-router-dom";
-import { Button } from "@mantine/core";
 import { roleDataType } from "../types/roleDataType";
 import roleProvider from "../service/roleProvider";
 import { useSelector } from "react-redux";
@@ -25,8 +24,8 @@ function AddEmployeeRole() {
       if (parentId && parentId != "parent") {
         const role = roles.find((r: { _id: any }) => r._id === parentId);
         console.log(role);
-        if (!role) {
-          navigate("/");
+        if (role._id !== parentId) {
+          return navigate("/");
         }
         setParentRole(role);
       }

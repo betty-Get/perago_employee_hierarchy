@@ -22,7 +22,7 @@ const FormComponent: React.FC<any> = (props) => {
         </label>
         <input
           type="string"
-          placeholder={props.role.name}
+          placeholder={props.role ? props.role.name : ""}
           className="w-2/3 bg-gray-200 appearance-none border-2 border-gray-200 rounded py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white"
           {...register("name", {
             required: "This is required.",
@@ -41,7 +41,7 @@ const FormComponent: React.FC<any> = (props) => {
           </label>
           <input
             type="string"
-            placeholder={props.role.description}
+            placeholder={props.role ? props.role.description : ""}
             className="w-2/3 bg-gray-200 appearance-none border-2 border-gray-200 rounded py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white"
             {...register("description", {
               required: "This is required.",
