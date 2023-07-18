@@ -18,7 +18,7 @@ function RoleComponent(role: any) {
   };
 
   return (
-    <div className="ml-10 p-1">
+    <div className="ml-7 p-1">
       <div className="border-b-2 border-slate-100 w-[600px]">
         {role.child.length > 0 && (
           <span className=" mt-3">

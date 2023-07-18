@@ -1,33 +1,32 @@
 import React, { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate, useParams } from "react-router-dom";
-import axios from "axios";
 import { useDisclosure } from "@mantine/hooks";
-import { Modal, Group, Button } from "@mantine/core";
+import { Modal, Button } from "@mantine/core";
 import { roleDataType } from "../types/roleDataType";
 import roleProvider from "../service/roleProvider";
+import { useSelector } from "react-redux";
 
 function EditEmployeeRole() {
   const [opened, { open, close }] = useDisclosure(false);
   const navigate = useNavigate();
   const params = useParams();
-  const [role, setRole] = useState<roleDataType>();
+  const roles = useSelector((state: any) => state.roles.data);
 
   const {
     register,
     handleSubmit,
     formState: { errors },
     reset,
-  } = useForm<roleDataType>({
-    defaultValues: role,
-  });
+  } = useForm<roleDataType>({});
 
   const getRole = async () => {
     try {
-      const response = await roleProvider.getRole(params.roleId);
-      setRole(response);
-      reset(response);
-      // console.log(response.data);
+      const role = roles.find((r: { _id: any }) => r._id === params.roleId);
+      if (!role) {
+        navigate("/");
+      }
+      reset(role);
       return;
     } catch (error) {
       console.log(error);
@@ -40,8 +39,7 @@ function EditEmployeeRole() {
 
   const editRole = async (data: roleDataType) => {
     try {
-      console.log(data);
-      await await roleProvider.editRole(params.roleId, data);
+      await roleProvider.editRole(params.roleId, data);
       alert("data updated");
       navigate("/");
     } catch (error) {
@@ -62,21 +60,30 @@ function EditEmployeeRole() {
   };
 
   return (
-    <div>
+    <div className="mt-10 mx-14">
       <Modal opened={opened} onClose={close} title="Are you sure?" centered>
-        <button onClick={deleteRole}>Yes</button>
-        <button onClick={close}>No</button>
+        <button onClick={deleteRole} className="p-3">
+          Yes
+        </button>
+        <button onClick={close} className="p-3">
+          No
+        </button>
       </Modal>
+
+      <p className="text-[25px] font-serif text-lime-600 ml-9">
+        Edit or Delete Role
+      </p>
 
       <form
         onSubmit={handleSubmit(editRole)}
-        className="bg-white w-[500px] mx-10 my-10 shadow-md rounded px-8 pt-6 pb-8 mb-4"
+        className="bg-white w-[500px] mx-10 my-5 shadow-md rounded px-8 pt-6 pb-8 mb-4"
       >
-        <label className="pr-3">name</label>
+        <label className="w-2/3 pl-3 pr-10 text-gray-500 font-bold md:text-right mb-1 md:mb-0 ">
+          Name :
+        </label>
         <input
           type="string"
-          // value={role.name}
-          className="shadow appearance-none border rounded w-[180px] py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+          className="w-2/3 bg-gray-200 appearance-none border-2 border-gray-200 rounded py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white"
           {...register("name", {
             required: true,
             minLength: {
@@ -89,10 +96,12 @@ function EditEmployeeRole() {
         <p className="block text-red-600 font-[13px]">{errors.name?.message}</p>
 
         <div className="block my-5">
-          <label className="pr-3">description</label>
+          <label className="w-1/3 pr-3 text-gray-500 font-bold md:text-right mb-1 md:mb-0">
+            Description :
+          </label>
           <input
             type="string"
-            className="shadow appearance-none border rounded w-[180px] py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            className="w-2/3 bg-gray-200 appearance-none border-2 border-gray-200 rounded py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white"
             {...register("description", {
               minLength: {
                 value: 6,

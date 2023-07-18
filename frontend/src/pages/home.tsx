@@ -23,8 +23,8 @@ function Home() {
   }, []);
 
   return (
-    <div className="my-10 mx-14">
-      <p className="text-[38px] font-serif text-lime-600 ml-9">
+    <div className="my-8 mx-14">
+      <p className="text-[38px] font-serif text-lime-600 ml-9 mb-4">
         Employees Heirarcy
       </p>
 

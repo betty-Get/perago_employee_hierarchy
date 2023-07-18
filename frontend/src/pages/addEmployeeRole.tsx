@@ -52,7 +52,7 @@ function AddEmployeeRole() {
   };
 
   return (
-    <div className="my-5 mx-14">
+    <div className="mt-10 mx-14">
       <p className="text-[25px] font-serif text-lime-600 ml-9">
         Add Role -- <span>{parentRole && parentRole.name}</span>
       </p>
@@ -61,10 +61,12 @@ function AddEmployeeRole() {
         onSubmit={handleSubmit(submitForm)}
         className="bg-white w-[500px] mx-10 my-5 shadow-md rounded px-8 pt-6 pb-8 mb-4"
       >
-        <label className="pr-3">name</label>
+        <label className="w-2/3 pl-3 pr-10 text-gray-500 font-bold md:text-right mb-1 md:mb-0 ">
+          Name :
+        </label>
         <input
           type="string"
-          className="shadow appearance-none border rounded w-[180px] py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+          className="w-2/3 bg-gray-200 appearance-none border-2 border-gray-200 rounded py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white"
           {...register("name", {
             required: "This is required.",
             minLength: {
@@ -77,10 +79,12 @@ function AddEmployeeRole() {
         <p className="block text-red-600 font-[13px]">{errors.name?.message}</p>
 
         <div className="block my-5">
-          <label className="pr-3">description</label>
+          <label className="w-1/3 pr-3 text-gray-500 font-bold md:text-right mb-1 md:mb-0">
+            Description :
+          </label>
           <input
             type="string"
-            className="shadow appearance-none border rounded w-[180px] py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            className="w-2/3 bg-gray-200 appearance-none border-2 border-gray-200 rounded py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white"
             {...register("description", {
               required: "This is required.",
               minLength: {
