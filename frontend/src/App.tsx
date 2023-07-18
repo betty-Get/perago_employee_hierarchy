@@ -6,6 +6,7 @@ import Navbar from "./component/navbar";
 import Home from "./pages/home";
 import AddEmployeeRole from "./pages/addEmployeeRole";
 import EditEmployeeRole from "./pages/editEmployeeRole";
+import Footer from "./component/footer";
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
             element={<EditEmployeeRole />}
           />
         </Routes>
+        <Footer />
       </BrowserRouter>
     </MantineProvider>
   );
