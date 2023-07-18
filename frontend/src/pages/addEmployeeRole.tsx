@@ -64,7 +64,14 @@ function AddEmployeeRole() {
         <input
           type="string"
           className="shadow appearance-none border rounded w-[180px] py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-          {...register("name", { required: true, minLength: 2, maxLength: 20 })}
+          {...register("name", {
+            required: "This is required.",
+            minLength: {
+              value: 2,
+              message: "This input requires min Length 2.",
+            },
+            maxLength: { value: 20, message: "This input exceed maxLength." },
+          })}
         />
         <p className="block text-red-600 font-[13px]">{errors.name?.message}</p>
 
@@ -74,9 +81,12 @@ function AddEmployeeRole() {
             type="string"
             className="shadow appearance-none border rounded w-[180px] py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
             {...register("description", {
-              required: true,
-              minLength: 6,
-              maxLength: 30,
+              required: "This is required.",
+              minLength: {
+                value: 6,
+                message: "This input requires min Length 2.",
+              },
+              maxLength: { value: 30, message: "This input exceed maxLength." },
             })}
           />
           <p className="block text-red-600 font-[13px]">
@@ -84,18 +94,6 @@ function AddEmployeeRole() {
           </p>
         </div>
 
-        {/* <div className="block mb-3">
-          <label className="pr-3">select parent</label>
-          <select id="parentId" {...register("parentId")}>
-            <option></option>
-            {roles &&
-              roles.map((role: any) => (
-                <option key={role._id} value={role._id}>
-                  {role.name}
-                </option>
-              ))}
-          </select>
-        </div> */}
         <Button
           type="submit"
           className=" hover:text-slate-700 hover:bg-white ml-5 text-lime-700 text-[25px] font-serif font-semibold"

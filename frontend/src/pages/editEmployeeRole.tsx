@@ -77,7 +77,14 @@ function EditEmployeeRole() {
           type="string"
           // value={role.name}
           className="shadow appearance-none border rounded w-[180px] py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-          {...register("name", { required: true, minLength: 3, maxLength: 20 })}
+          {...register("name", {
+            required: true,
+            minLength: {
+              value: 2,
+              message: "This input requires min Length 2.",
+            },
+            maxLength: { value: 20, message: "This input exceed maxLength." },
+          })}
         />
         <p className="block text-red-600 font-[13px]">{errors.name?.message}</p>
 
@@ -87,8 +94,11 @@ function EditEmployeeRole() {
             type="string"
             className="shadow appearance-none border rounded w-[180px] py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
             {...register("description", {
-              minLength: 6,
-              maxLength: 30,
+              minLength: {
+                value: 6,
+                message: "This input requires min Length 2.",
+              },
+              maxLength: { value: 30, message: "This input exceed maxLength." },
             })}
           />
           <p className="block text-red-600 font-[13px]">
