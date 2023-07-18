@@ -1,16 +1,18 @@
 import React, { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate, useParams } from "react-router-dom";
-import axios from "axios";
 import { Button } from "@mantine/core";
 import { roleDataType } from "../types/roleDataType";
 import roleProvider from "../service/roleProvider";
+import { useSelector } from "react-redux";
 
 function AddEmployeeRole() {
   const navigate = useNavigate();
   const params = useParams();
   const parentId: string = String(params.parentId);
   const [parentRole, setParentRole] = useState<roleDataType>();
+  const roles = useSelector((state: any) => state.roles.data);
+
   const {
     register,
     handleSubmit,
@@ -20,11 +22,12 @@ function AddEmployeeRole() {
   const getRole = async () => {
     try {
       if (parentId && parentId != "parent") {
-        const response = await roleProvider.getRole(parentId);
-        setParentRole(response);
+        const role = roles.find((r: { _id: any }) => r._id === parentId);
+        if (!role) {
+          navigate("/");
+        }
+        setParentRole(role);
       }
-
-      //   console.log(response.data);
       return;
     } catch (error) {
       console.log(error);
@@ -37,8 +40,6 @@ function AddEmployeeRole() {
 
   const submitForm = async (data: roleDataType) => {
     try {
-      console.log(data);
-
       if (parentId != "parent") {
         data.parentId = parentId;
       }
