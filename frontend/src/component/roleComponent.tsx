@@ -1,28 +1,13 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import roleProvider from "../service/roleProvider";
 import { IoMdArrowDropdown, IoMdArrowDropup } from "react-icons/io";
 import { AiOutlineFolderAdd, AiOutlineEdit } from "react-icons/ai";
+import { useSelector } from "react-redux";
 
 function RoleComponent(role: any) {
   const navigate = useNavigate();
-  const [roles, setRoles] = useState([]);
+  const roles = useSelector((state: any) => state.roles.data);
   const [show, setShow] = useState(false);
-
-  const getRoles = async () => {
-    try {
-      const response = await roleProvider.getRoles();
-      setRoles(response);
-      //   console.log(response);
-      return;
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  useEffect(() => {
-    getRoles();
-  }, []);
 
   const addRole = () => {
     navigate(`/addEmployeeRole/${role._id}`);

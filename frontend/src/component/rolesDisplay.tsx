@@ -11,7 +11,7 @@ const RolesDisplay: React.FC<dataType> = ({ roles }) => {
 
   return (
     <div>
-      {parentRole && (
+      {!parentRole && (
         <div className="my-3 ml-9">
           <Button
             className="text-white bg-slate-600 hover:bg-slate-500 text-[18px] "
@@ -23,6 +23,7 @@ const RolesDisplay: React.FC<dataType> = ({ roles }) => {
           </Button>
         </div>
       )}
+
       {parentRole.map((parent: any) => {
         return (
           <RoleComponent

@@ -1,16 +1,17 @@
-import React, { useEffect, useState } from "react";
-import { Button } from "@mantine/core";
+import React, { useEffect } from "react";
 import RolesDisplay from "../component/rolesDisplay";
 import roleProvider from "../service/roleProvider";
+import { useSelector, useDispatch } from "react-redux/";
+import { setRoleData } from "../service/roleReducer";
 
 function Home() {
-  const [roles, setRoles] = useState([]);
+  const roles = useSelector((state: any) => state.roles.data);
+  const dispacth = useDispatch();
 
   const getRoles = async () => {
     try {
       const response = await roleProvider.getRoles();
-      setRoles(response);
-      //   console.log(response.data);
+      dispacth(setRoleData(response));
       return;
     } catch (error) {
       console.log(error);
@@ -30,7 +31,7 @@ function Home() {
       {roles ? (
         <RolesDisplay roles={roles} />
       ) : (
-        <div role="status">
+        <div role="status" className="block mx-[150px] mt-[60px]">
           <svg
             aria-hidden="true"
             className="w-8 h-8 mr-2 text-gray-200 animate-spin dark:text-gray-600 fill-blue-600"
