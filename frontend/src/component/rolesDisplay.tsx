@@ -6,7 +6,6 @@ import { Button } from "@mantine/core";
 
 const RolesDisplay: React.FC<dataType> = ({ roles }) => {
   const navigate = useNavigate();
-  console.log(roles);
   const parentRole = roles.filter((p) => !p.parentId);
 
   return (
@@ -27,6 +26,7 @@ const RolesDisplay: React.FC<dataType> = ({ roles }) => {
       {parentRole.map((parent: any) => {
         return (
           <RoleComponent
+            key={parent._id}
             _id={parent["_id"]}
             name={parent["name"]}
             child={roles.filter((c: any) => c["parentId"] == parent["_id"])}

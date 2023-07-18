@@ -1,68 +1,20 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { useForm } from "react-hook-form";
-import { useNavigate, useParams } from "react-router-dom";
 import { Button } from "@mantine/core";
 import { roleDataType } from "../types/roleDataType";
-import roleProvider from "../service/roleProvider";
-import { useSelector } from "react-redux";
-import FormComponent from "../component/formComponent";
 
-function AddEmployeeRole() {
-  const navigate = useNavigate();
-  const params = useParams();
-  const parentId: string = String(params.parentId);
-  const [parentRole, setParentRole] = useState<roleDataType>();
-  const roles = useSelector((state: any) => state.roles.data);
-
+const FormComponent: React.FC<any> = (props) => {
   const {
     register,
     handleSubmit,
     formState: { errors },
+    reset,
   } = useForm<roleDataType>();
 
-  const getRole = async () => {
-    try {
-      if (parentId && parentId != "parent") {
-        const role = roles.find((r: { _id: any }) => r._id === parentId);
-        console.log(role);
-        if (!role) {
-          navigate("/");
-        }
-        setParentRole(role);
-      }
-      return;
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  useEffect(() => {
-    getRole();
-  }, []);
-
-  const submitForm = async (data: roleDataType) => {
-    try {
-      if (parentId != "parent") {
-        data.parentId = parentId;
-      }
-      await roleProvider.addRoles(data);
-      alert("data added");
-      navigate("/");
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
   return (
-    <div className="mt-10 mx-14">
-      <p className="text-[25px] font-serif text-lime-600 ml-9">
-        Add Role -- <span>{parentRole && parentRole.name}</span>
-      </p>
-
-      <FormComponent submitForm={submitForm} button={"Submit"} />
-
-      {/* <form
-        onSubmit={handleSubmit(submitForm)}
+    <div>
+      <form
+        onSubmit={handleSubmit(props.submitForm)}
         className="bg-white w-[500px] mx-10 my-5 shadow-md rounded px-8 pt-6 pb-8 mb-4"
       >
         <label className="w-2/3 pl-3 pr-10 text-gray-500 font-bold md:text-right mb-1 md:mb-0 ">
@@ -70,6 +22,7 @@ function AddEmployeeRole() {
         </label>
         <input
           type="string"
+          placeholder={props.role.name}
           className="w-2/3 bg-gray-200 appearance-none border-2 border-gray-200 rounded py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white"
           {...register("name", {
             required: "This is required.",
@@ -88,6 +41,7 @@ function AddEmployeeRole() {
           </label>
           <input
             type="string"
+            placeholder={props.role.description}
             className="w-2/3 bg-gray-200 appearance-none border-2 border-gray-200 rounded py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white"
             {...register("description", {
               required: "This is required.",
@@ -109,11 +63,35 @@ function AddEmployeeRole() {
           radius="md"
           size="md"
         >
-          Submit
+          {props.button}
         </Button>
-      </form> */}
+
+        {props.editButton && (
+          <Button
+            type="submit"
+            className="bg-black hover:bg-indigo-400 ml-5"
+            radius="md"
+            size="md"
+          >
+            {props.editButton}
+          </Button>
+        )}
+
+        {props.deleteButton && (
+          <span>
+            <Button
+              className="bg-black hover:bg-indigo-400 ml-5"
+              radius="md"
+              size="md"
+              onClick={props.open}
+            >
+              {props.deleteButton}
+            </Button>
+          </span>
+        )}
+      </form>
     </div>
   );
-}
+};
 
-export default AddEmployeeRole;
+export default FormComponent;
