@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import roleProvider from "../service/roleProvider";
-import { Group, Avatar, Text, Accordion } from "@mantine/core";
+import { IoMdArrowDropdown, IoMdArrowDropup } from "react-icons/io";
+import { AiOutlineFolderAdd, AiOutlineEdit } from "react-icons/ai";
 
 function RoleComponent(role: any) {
   const navigate = useNavigate();
@@ -23,21 +24,40 @@ function RoleComponent(role: any) {
     getRoles();
   }, []);
 
+  const addRole = () => {
+    navigate(`/addEmployeeRole/${role._id}`);
+  };
+
   const editRole = () => {
     navigate(`/EditEmployeeRole/${role._id}`);
   };
 
   return (
-    <div className="ml-4 ">
-      <div className="border-2 w-[300px]">
+    <div className="ml-10 p-1">
+      <div className="border-b-2 border-slate-100 w-[600px]">
         {role.child.length > 0 && (
-          <span className="pr-2">
-            <button onClick={() => setShow(!show)}>+</button>
+          <span className=" mt-3">
+            <button onClick={() => setShow(!show)}>
+              {show ? <IoMdArrowDropup /> : <IoMdArrowDropdown />}
+            </button>
           </span>
         )}
-        {role.name} <span className=" pl-10 pr-2">+</span>
+        {role.name}
+        <span className=" pl-60 pr-4">
+          <button
+            className="text-lime-700 hover:text-black text-[22px]"
+            onClick={addRole}
+          >
+            <AiOutlineFolderAdd />
+          </button>
+        </span>
         <span>
-          <button onClick={editRole}>edit</button>
+          <button
+            className="text-lime-700 hover:text-black text-[22px]"
+            onClick={editRole}
+          >
+            <AiOutlineEdit />
+          </button>
         </span>
       </div>
 
@@ -45,7 +65,7 @@ function RoleComponent(role: any) {
         {role.child.length > 0 &&
           role.child.map((r: any) => {
             return (
-              <div>
+              <div className="">
                 <RoleComponent
                   _id={r["_id"]}
                   name={r["name"]}

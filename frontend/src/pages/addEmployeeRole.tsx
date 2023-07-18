@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import { Button } from "@mantine/core";
 import { roleDataType } from "../types/roleDataType";
@@ -8,17 +8,22 @@ import roleProvider from "../service/roleProvider";
 
 function AddEmployeeRole() {
   const navigate = useNavigate();
-  const [roles, setRoles] = useState([]);
+  const params = useParams();
+  const parentId: string = String(params.parentId);
+  const [parentRole, setParentRole] = useState<roleDataType>();
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm<roleDataType>();
 
-  const getRoles = async () => {
+  const getRole = async () => {
     try {
-      const response = await roleProvider.getRoles();
-      setRoles(response);
+      if (parentId && parentId != "parent") {
+        const response = await roleProvider.getRole(parentId);
+        setParentRole(response);
+      }
+
       //   console.log(response.data);
       return;
     } catch (error) {
@@ -27,12 +32,16 @@ function AddEmployeeRole() {
   };
 
   useEffect(() => {
-    getRoles();
+    getRole();
   }, []);
 
   const submitForm = async (data: roleDataType) => {
     try {
       console.log(data);
+
+      if (parentId != "parent") {
+        data.parentId = parentId;
+      }
       await roleProvider.addRoles(data);
       alert("data added");
       navigate("/");
@@ -42,16 +51,20 @@ function AddEmployeeRole() {
   };
 
   return (
-    <div>
+    <div className="my-5 mx-14">
+      <p className="text-[25px] font-serif text-lime-600 ml-9">
+        Add Role -- <span>{parentRole && parentRole.name}</span>
+      </p>
+
       <form
         onSubmit={handleSubmit(submitForm)}
-        className="bg-white w-[500px] mx-10 my-10 shadow-md rounded px-8 pt-6 pb-8 mb-4"
+        className="bg-white w-[500px] mx-10 my-5 shadow-md rounded px-8 pt-6 pb-8 mb-4"
       >
         <label className="pr-3">name</label>
         <input
           type="string"
           className="shadow appearance-none border rounded w-[180px] py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-          {...register("name", { required: true, minLength: 3, maxLength: 20 })}
+          {...register("name", { required: true, minLength: 2, maxLength: 20 })}
         />
         <p className="block text-red-600 font-[13px]">{errors.name?.message}</p>
 
@@ -71,7 +84,7 @@ function AddEmployeeRole() {
           </p>
         </div>
 
-        <div className="block mb-3">
+        {/* <div className="block mb-3">
           <label className="pr-3">select parent</label>
           <select id="parentId" {...register("parentId")}>
             <option></option>
@@ -82,7 +95,7 @@ function AddEmployeeRole() {
                 </option>
               ))}
           </select>
-        </div>
+        </div> */}
         <Button
           type="submit"
           className=" hover:text-slate-700 hover:bg-white ml-5 text-lime-700 text-[25px] font-serif font-semibold"

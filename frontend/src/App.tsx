@@ -15,7 +15,10 @@ function App() {
         <Navbar />
         <Routes>
           <Route index path="/" element={<Home />} />
-          <Route path="/addEmployeeForm" element={<AddEmployeeRole />} />
+          <Route
+            path="/addEmployeeRole/:parentId"
+            element={<AddEmployeeRole />}
+          />
           <Route
             path="/editEmployeeRole/:roleId"
             element={<EditEmployeeRole />}
