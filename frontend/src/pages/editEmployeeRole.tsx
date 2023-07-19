@@ -77,7 +77,7 @@ function EditEmployeeRole() {
       </Modal>
 
       {!success && (
-        <p className="text-[25px] font-serif text-lime-600 ml-9">
+        <p className="ease-in-out text-[25px] font-serif text-lime-600 ml-9">
           Edit or Delete Role
         </p>
       )}

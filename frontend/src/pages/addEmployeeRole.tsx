@@ -57,7 +57,7 @@ function AddEmployeeRole() {
   return (
     <div className="mt-10 mx-14">
       {!success && (
-        <p className="text-[25px] font-serif text-lime-600 ml-9">
+        <p className="text-[25px] ease-in-out font-serif text-lime-600 ml-9">
           Add Role<span>{parentRole && `-- ${parentRole.name}`}</span>
         </p>
       )}

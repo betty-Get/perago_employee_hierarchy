@@ -20,7 +20,7 @@ const FormComponent: React.FC<any> = (props) => {
       {!props.success && (
         <form
           onSubmit={handleSubmit(props.submitMethod)}
-          className="bg-white w-[500px] mx-10 my-5 shadow-md rounded px-8 pt-6 pb-8 mb-4"
+          className="bg-white ease-in-out w-[500px] mx-10 my-5 shadow-md rounded px-8 pt-6 pb-8 mb-4"
         >
           <label className="w-2/3 pl-3 pr-10 text-gray-500 font-bold md:text-right mb-1 md:mb-0 ">
             Name :
@@ -98,7 +98,7 @@ const FormComponent: React.FC<any> = (props) => {
       )}
       {props.success && (
         <div
-          className="bg-blue-100 w-[400px] border-b border-blue-500 text-blue-700 px-4 py-3 "
+          className="bg-lime-100 ease-in-out w-[400px] border-b border-lime-300 text-lime-700 px-4 py-3 "
           role="alert"
         >
           <p className="text-sm">{props.successMsg}</p>

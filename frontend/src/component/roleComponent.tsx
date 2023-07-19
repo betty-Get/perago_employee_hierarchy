@@ -50,9 +50,8 @@ function RoleComponent(role: any) {
         {role.child.length > 0 &&
           role.child.map((r: any) => {
             return (
-              <div>
+              <div key={r["_id"]}>
                 <RoleComponent
-                  key={r._id}
                   _id={r["_id"]}
                   name={r["name"]}
                   child={roles.filter((k: any) => k["parentId"] == r["_id"])}
