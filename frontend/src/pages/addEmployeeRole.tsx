@@ -20,11 +20,10 @@ function AddEmployeeRole() {
     formState: { errors },
   } = useForm<roleDataType>();
 
-  const getRole = async () => {
+  const getParentRole = async () => {
     try {
       if (parentId && parentId != "parent") {
         const role = roles.find((r: { _id: any }) => r._id === parentId);
-        console.log(role);
         if (role._id !== parentId) {
           return navigate("/");
         }
@@ -37,7 +36,7 @@ function AddEmployeeRole() {
   };
 
   useEffect(() => {
-    getRole();
+    getParentRole();
   }, []);
 
   const submitForm = async (data: roleDataType) => {
@@ -49,8 +48,9 @@ function AddEmployeeRole() {
       alert("data added");
       navigate("/");
     } catch (err: any) {
-      setError(err.response.data);
-      setTimeout(() => navigate("/"), 1000);
+      console.log(err);
+      // setError(err.response.data);
+      // setTimeout(() => navigate("/"), 1000);
     }
   };
 
@@ -60,59 +60,7 @@ function AddEmployeeRole() {
         Add Role -- <span>{parentRole && parentRole.name}</span>
       </p>
 
-      <FormComponent submitForm={submitForm} button={"Submit"} err={error} />
-
-      {/* <form
-        onSubmit={handleSubmit(submitForm)}
-        className="bg-white w-[500px] mx-10 my-5 shadow-md rounded px-8 pt-6 pb-8 mb-4"
-      >
-        <label className="w-2/3 pl-3 pr-10 text-gray-500 font-bold md:text-right mb-1 md:mb-0 ">
-          Name :
-        </label>
-        <input
-          type="string"
-          className="w-2/3 bg-gray-200 appearance-none border-2 border-gray-200 rounded py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white"
-          {...register("name", {
-            required: "This is required.",
-            minLength: {
-              value: 2,
-              message: "This input requires min Length 2.",
-            },
-            maxLength: { value: 20, message: "This input exceed maxLength." },
-          })}
-        />
-        <p className="block text-red-600 font-[13px]">{errors.name?.message}</p>
-
-        <div className="block my-5">
-          <label className="w-1/3 pr-3 text-gray-500 font-bold md:text-right mb-1 md:mb-0">
-            Description :
-          </label>
-          <input
-            type="string"
-            className="w-2/3 bg-gray-200 appearance-none border-2 border-gray-200 rounded py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white"
-            {...register("description", {
-              required: "This is required.",
-              minLength: {
-                value: 6,
-                message: "This input requires min Length 2.",
-              },
-              maxLength: { value: 30, message: "This input exceed maxLength." },
-            })}
-          />
-          <p className="block text-red-600 font-[13px]">
-            {errors.description?.message}
-          </p>
-        </div>
-
-        <Button
-          type="submit"
-          className=" hover:text-slate-700 hover:bg-white ml-5 text-lime-700 text-[25px] font-serif font-semibold"
-          radius="md"
-          size="md"
-        >
-          Submit
-        </Button>
-      </form> */}
+      <FormComponent submitForm={submitForm} button={"Submit"} />
     </div>
   );
 }

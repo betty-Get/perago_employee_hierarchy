@@ -47,7 +47,7 @@ const FormComponent: React.FC<any> = (props) => {
               required: "This is required.",
               minLength: {
                 value: 6,
-                message: "This input requires min Length 2.",
+                message: "This input requires min Length 6.",
               },
               maxLength: { value: 30, message: "This input exceed maxLength." },
             })}
@@ -89,7 +89,7 @@ const FormComponent: React.FC<any> = (props) => {
             </Button>
           </span>
         )}
-        <p className="text-red-500 text-[12px]">{props.err ? props.err : ""}</p>
+        {/* <p className="text-red-500 text-[12px]">{props.err ? props.err : ""}</p> */}
       </form>
     </div>
   );

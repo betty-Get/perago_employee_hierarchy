@@ -58,8 +58,9 @@ function EditEmployeeRole() {
         navigate("/");
       }, 1000);
     } catch (err: any) {
-      setError(err.response.data);
-      setTimeout(() => navigate("/"), 1000);
+      console.log(err);
+      // setError(err.response.data);
+      // setTimeout(() => navigate("/"), 1000);
     }
   };
 
@@ -84,7 +85,6 @@ function EditEmployeeRole() {
         deleteButton={"Delete"}
         open={open}
         role={role}
-        err={error}
       />
     </div>
   );

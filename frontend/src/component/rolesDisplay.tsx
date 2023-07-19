@@ -10,7 +10,7 @@ const RolesDisplay: React.FC<dataType> = ({ roles }) => {
 
   return (
     <div>
-      {!parentRole && (
+      {parentRole.length === 0 && (
         <div className="my-3 ml-9">
           <Button
             className="text-white bg-slate-600 hover:bg-slate-500 text-[18px] "
