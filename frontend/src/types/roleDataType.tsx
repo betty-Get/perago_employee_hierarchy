@@ -1,5 +1,5 @@
 export interface RoleDataType {
-  map(arg0: (tree: any) => JSX.Element): import("react").ReactNode;
+  // map(arg0: (tree: any) => JSX.Element): import("react").ReactNode;
   _id: string;
   name: string;
   description: string;
