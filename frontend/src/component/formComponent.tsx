@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { Button } from "@mantine/core";
 import { roleDataType } from "../types/roleDataType";
@@ -11,10 +11,14 @@ const FormComponent: React.FC<any> = (props) => {
     reset,
   } = useForm<roleDataType>();
 
+  useEffect(() => {
+    reset(props.role);
+  }, []);
+
   return (
     <div>
       <form
-        onSubmit={handleSubmit(props.submitForm)}
+        onSubmit={handleSubmit(props.submitMethod)}
         className="bg-white w-[500px] mx-10 my-5 shadow-md rounded px-8 pt-6 pb-8 mb-4"
       >
         <label className="w-2/3 pl-3 pr-10 text-gray-500 font-bold md:text-right mb-1 md:mb-0 ">
@@ -22,7 +26,7 @@ const FormComponent: React.FC<any> = (props) => {
         </label>
         <input
           type="string"
-          placeholder={props.role ? props.role.name : ""}
+          // placeholder={props.role ? props.role.name : ""}
           className="w-2/3 bg-gray-200 appearance-none border-2 border-gray-200 rounded py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white"
           {...register("name", {
             required: "This is required.",
@@ -41,7 +45,7 @@ const FormComponent: React.FC<any> = (props) => {
           </label>
           <input
             type="string"
-            placeholder={props.role ? props.role.description : ""}
+            // placeholder={props.role ? props.role.description : ""}
             className="w-2/3 bg-gray-200 appearance-none border-2 border-gray-200 rounded py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white"
             {...register("description", {
               required: "This is required.",
@@ -57,38 +61,36 @@ const FormComponent: React.FC<any> = (props) => {
           </p>
         </div>
 
-        <Button
-          type="submit"
-          className=" hover:text-slate-700 hover:bg-white ml-5 text-lime-700 text-[25px] font-serif font-semibold"
-          radius="md"
-          size="md"
-        >
-          {props.button}
-        </Button>
-
-        {props.editButton && (
+        {props.action === "add" ? (
           <Button
             type="submit"
-            className="bg-black hover:bg-indigo-400 ml-5"
+            className=" hover:text-slate-700 hover:bg-white ml-5 text-lime-700 text-[25px] font-serif font-semibold"
             radius="md"
             size="md"
           >
-            {props.editButton}
+            {props.button}
           </Button>
-        )}
-
-        {props.deleteButton && (
+        ) : (
           <span>
+            <Button
+              type="submit"
+              className="bg-black hover:bg-indigo-400 ml-5"
+              radius="md"
+              size="md"
+            >
+              Edit
+            </Button>
             <Button
               className="bg-black hover:bg-indigo-400 ml-5"
               radius="md"
               size="md"
-              onClick={props.open}
+              onClick={props.openDeleteModal}
             >
-              {props.deleteButton}
+              Delete
             </Button>
           </span>
         )}
+
         {/* <p className="text-red-500 text-[12px]">{props.err ? props.err : ""}</p> */}
       </form>
     </div>

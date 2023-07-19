@@ -5,31 +5,45 @@ import { useDisclosure } from "@mantine/hooks";
 import { Modal } from "@mantine/core";
 import { roleDataType } from "../types/roleDataType";
 import roleProvider from "../service/roleProvider";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import FormComponent from "../component/formComponent";
+import { setRoleData } from "../service/roleReducer";
 
 function EditEmployeeRole() {
   const [opened, { open, close }] = useDisclosure(false);
   const navigate = useNavigate();
   const params = useParams();
   const roles = useSelector((state: any) => state.roles.data);
-  const [error, setError] = useState(false);
-  const role = roles.find((r: { _id: any }) => r._id === params.roleId);
+  // const [error, setError] = useState(false);
+  const dispacth = useDispatch();
+  const [role, setRole] = useState<roleDataType>();
+  // const role = roles.find((r: { _id: any }) => r._id === params.roleId);
 
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<roleDataType>({
-    defaultValues: role,
-  });
+  // const {
+  //   register,
+  //   handleSubmit,
+  //   formState: { errors },
+  // } = useForm<roleDataType>({
+  //   defaultValues: role,
+  // });
 
   const getRole = async () => {
     try {
-      if (!role) {
+      // if redux state not set, use dispatch to setData
+      if (!roles) {
+        const roleData = await roleProvider.getRoles();
+        dispacth(setRoleData(roleData));
+      }
+      // find role to update by roleId from param
+      const targetRole = roles.find(
+        (r: { _id: any }) => r._id === params.roleId
+      );
+
+      // exit page if role not found
+      if (!targetRole) {
         navigate("/");
       }
-      // reset(role);
+      setRole(targetRole);
       return;
     } catch (error) {
       console.log(error);
@@ -45,9 +59,10 @@ function EditEmployeeRole() {
       await roleProvider.editRole(params.roleId, data);
       alert("data updated");
       navigate("/");
-    } catch (err: any) {
-      setError(err.response.data);
-      setTimeout(() => navigate("/"), 1000);
+    } catch (err) {
+      console.log(err);
+      // setError(err.response.data);
+      // setTimeout(() => navigate("/"), 1000);
     }
   };
 
@@ -79,13 +94,14 @@ function EditEmployeeRole() {
         Edit or Delete Role
       </p>
 
-      <FormComponent
-        submitForm={editRole}
-        editButton={"Edit"}
-        deleteButton={"Delete"}
-        open={open}
-        role={role}
-      />
+      {role && (
+        <FormComponent
+          submitMethod={editRole}
+          action={"Edit"}
+          role={role}
+          openDeleteModal={open}
+        />
+      )}
     </div>
   );
 }
