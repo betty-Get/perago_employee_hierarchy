@@ -12,6 +12,7 @@ function EditEmployeeRole() {
   const [opened, { open, close }] = useDisclosure(false);
   const navigate = useNavigate();
   const params = useParams();
+  const [success, setSuccess] = useState(false);
   const roles = useSelector((state: any) => state.roles.data);
   const dispacth = useDispatch();
   const [role, setRole] = useState<RoleDataType>();
@@ -46,8 +47,8 @@ function EditEmployeeRole() {
   const editRole = async (data: RoleDataType) => {
     try {
       await roleProvider.editRole(params.roleId, data);
-      alert("data updated");
-      navigate("/");
+      setSuccess(true);
+      setTimeout(() => navigate("/"), 2000);
     } catch (err) {
       console.log(err);
     }
@@ -75,9 +76,11 @@ function EditEmployeeRole() {
         </button>
       </Modal>
 
-      <p className="text-[25px] font-serif text-lime-600 ml-9">
-        Edit or Delete Role
-      </p>
+      {!success && (
+        <p className="text-[25px] font-serif text-lime-600 ml-9">
+          Edit or Delete Role
+        </p>
+      )}
 
       {role && (
         <FormComponent
@@ -85,6 +88,8 @@ function EditEmployeeRole() {
           action={"Edit"}
           role={role}
           openDeleteModal={open}
+          success={success}
+          successMsg={"Role Edited SucessFully"}
         />
       )}
     </div>

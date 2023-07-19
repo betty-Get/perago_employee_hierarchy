@@ -11,6 +11,7 @@ function AddEmployeeRole() {
   const params = useParams();
   const parentId: string = String(params.parentId);
   const [parentRole, setParentRole] = useState<RoleDataType>();
+  const [success, setSuccess] = useState(false);
   const roles = useSelector((state: any) => state.roles.data);
   const dispacth = useDispatch();
 
@@ -45,23 +46,27 @@ function AddEmployeeRole() {
         data.parentId = parentId;
       }
       await roleProvider.addRoles(data);
-      alert("data added");
-      navigate("/");
+      setSuccess(true);
+      setTimeout(() => navigate("/"), 2000);
     } catch (err) {
       console.log(err);
+      setSuccess(false);
     }
   };
 
   return (
     <div className="mt-10 mx-14">
-      <p className="text-[25px] font-serif text-lime-600 ml-9">
-        Add Role<span>{parentRole && `-- ${parentRole.name}`}</span>
-      </p>
-
+      {!success && (
+        <p className="text-[25px] font-serif text-lime-600 ml-9">
+          Add Role<span>{parentRole && `-- ${parentRole.name}`}</span>
+        </p>
+      )}
       <FormComponent
         submitMethod={submitForm}
         button={"Submit"}
         action={"add"}
+        success={success}
+        successMsg={"Role Added SucessFully"}
       />
     </div>
   );
