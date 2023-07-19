@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from "react";
-import { useForm } from "react-hook-form";
 import { useNavigate, useParams } from "react-router-dom";
 import { useDisclosure } from "@mantine/hooks";
 import { Modal } from "@mantine/core";
-import { roleDataType } from "../types/roleDataType";
+import { RoleDataType } from "../types/roleDataType";
 import roleProvider from "../service/roleProvider";
 import { useSelector, useDispatch } from "react-redux";
 import FormComponent from "../component/formComponent";
@@ -14,18 +13,8 @@ function EditEmployeeRole() {
   const navigate = useNavigate();
   const params = useParams();
   const roles = useSelector((state: any) => state.roles.data);
-  // const [error, setError] = useState(false);
   const dispacth = useDispatch();
-  const [role, setRole] = useState<roleDataType>();
-  // const role = roles.find((r: { _id: any }) => r._id === params.roleId);
-
-  // const {
-  //   register,
-  //   handleSubmit,
-  //   formState: { errors },
-  // } = useForm<roleDataType>({
-  //   defaultValues: role,
-  // });
+  const [role, setRole] = useState<RoleDataType>();
 
   const getRole = async () => {
     try {
@@ -54,15 +43,13 @@ function EditEmployeeRole() {
     getRole();
   }, []);
 
-  const editRole = async (data: roleDataType) => {
+  const editRole = async (data: RoleDataType) => {
     try {
       await roleProvider.editRole(params.roleId, data);
       alert("data updated");
       navigate("/");
     } catch (err) {
       console.log(err);
-      // setError(err.response.data);
-      // setTimeout(() => navigate("/"), 1000);
     }
   };
 
@@ -74,8 +61,6 @@ function EditEmployeeRole() {
       }, 1000);
     } catch (err: any) {
       console.log(err);
-      // setError(err.response.data);
-      // setTimeout(() => navigate("/"), 1000);
     }
   };
 

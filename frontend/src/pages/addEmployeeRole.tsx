@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { useForm } from "react-hook-form";
 import { useNavigate, useParams } from "react-router-dom";
-import { roleDataType } from "../types/roleDataType";
+import { RoleDataType } from "../types/roleDataType";
 import roleProvider from "../service/roleProvider";
 import { useSelector, useDispatch } from "react-redux";
 import FormComponent from "../component/formComponent";
@@ -11,15 +10,9 @@ function AddEmployeeRole() {
   const navigate = useNavigate();
   const params = useParams();
   const parentId: string = String(params.parentId);
-  const [parentRole, setParentRole] = useState<roleDataType>();
+  const [parentRole, setParentRole] = useState<RoleDataType>();
   const roles = useSelector((state: any) => state.roles.data);
   const dispacth = useDispatch();
-
-  // const {
-  //   register,
-  //   handleSubmit,
-  //   formState: { errors },
-  // } = useForm<roleDataType>();
 
   const getParentRole = async () => {
     try {
@@ -46,7 +39,7 @@ function AddEmployeeRole() {
     getParentRole();
   }, []);
 
-  const submitForm = async (data: roleDataType) => {
+  const submitForm = async (data: RoleDataType) => {
     try {
       if (parentId != "parent") {
         data.parentId = parentId;
@@ -62,7 +55,7 @@ function AddEmployeeRole() {
   return (
     <div className="mt-10 mx-14">
       <p className="text-[25px] font-serif text-lime-600 ml-9">
-        Add Role<span> -- {parentRole && parentRole.name}</span>
+        Add Role<span>{parentRole && `-- ${parentRole.name}`}</span>
       </p>
 
       <FormComponent

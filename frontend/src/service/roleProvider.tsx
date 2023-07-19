@@ -1,5 +1,5 @@
 import axios from "axios";
-import { roleDataType } from "../types/roleDataType";
+import { RoleDataType } from "../types/roleDataType";
 
 const roleServiceUrl = "http://localhost:5000/api/employee-role";
 
@@ -13,12 +13,12 @@ const getRole = async (roleId: any) => {
   return response.data;
 };
 
-const addRoles = async (data: roleDataType) => {
+const addRoles = async (data: RoleDataType) => {
   const response = await axios.post(`${roleServiceUrl}/`, data);
   return response.data;
 };
 
-const editRole = async (roleId: any, data: roleDataType) => {
+const editRole = async (roleId: any, data: RoleDataType) => {
   const response = await axios.patch(`${roleServiceUrl}/${roleId}`, data);
   return response.data;
 };

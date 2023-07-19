@@ -1,10 +1,10 @@
 import React from "react";
 import RoleComponent from "./roleComponent";
 import { useNavigate } from "react-router-dom";
-import { dataType } from "../types/roleDataType";
+import { DataType } from "../types/roleDataType";
 import { Button } from "@mantine/core";
 
-const RolesDisplay: React.FC<dataType> = ({ roles }) => {
+const RolesDisplay: React.FC<DataType> = ({ roles }) => {
   const navigate = useNavigate();
   const parentRole = roles.filter((p) => !p.parentId);
 

@@ -1,7 +1,7 @@
 require("dotenv").config();
 const express = require("express");
 const mongoose = require("mongoose");
-const treeRouter = require("./router/treeRouter");
+const roleRouter = require("./router/roleRouter");
 const cors = require("cors");
 
 const app = express();
@@ -10,7 +10,7 @@ app.use(express.json());
 app.use(cors());
 
 //middleware
-app.use("/api/employee-role", treeRouter);
+app.use("/api/employee-role", roleRouter);
 
 //DB connection
 mongoose

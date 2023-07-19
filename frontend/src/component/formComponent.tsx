@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { Button } from "@mantine/core";
-import { roleDataType } from "../types/roleDataType";
+import { RoleDataType } from "../types/roleDataType";
 
 const FormComponent: React.FC<any> = (props) => {
   const {
@@ -9,7 +9,7 @@ const FormComponent: React.FC<any> = (props) => {
     handleSubmit,
     formState: { errors },
     reset,
-  } = useForm<roleDataType>();
+  } = useForm<RoleDataType>();
 
   useEffect(() => {
     reset(props.role);
@@ -26,7 +26,6 @@ const FormComponent: React.FC<any> = (props) => {
         </label>
         <input
           type="string"
-          // placeholder={props.role ? props.role.name : ""}
           className="w-2/3 bg-gray-200 appearance-none border-2 border-gray-200 rounded py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white"
           {...register("name", {
             required: "This is required.",
@@ -45,7 +44,6 @@ const FormComponent: React.FC<any> = (props) => {
           </label>
           <input
             type="string"
-            // placeholder={props.role ? props.role.description : ""}
             className="w-2/3 bg-gray-200 appearance-none border-2 border-gray-200 rounded py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white"
             {...register("description", {
               required: "This is required.",
@@ -90,8 +88,6 @@ const FormComponent: React.FC<any> = (props) => {
             </Button>
           </span>
         )}
-
-        {/* <p className="text-red-500 text-[12px]">{props.err ? props.err : ""}</p> */}
       </form>
     </div>
   );

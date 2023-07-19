@@ -1,4 +1,4 @@
-export interface roleDataType {
+export interface RoleDataType {
   map(arg0: (tree: any) => JSX.Element): import("react").ReactNode;
   _id: string;
   name: string;
@@ -6,6 +6,6 @@ export interface roleDataType {
   parentId: string;
 }
 
-export interface dataType {
-  roles: roleDataType[];
+export interface DataType {
+  roles: RoleDataType[];
 }
