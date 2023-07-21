@@ -85,7 +85,7 @@ const FormComponent: React.FC<any> = (props) => {
                 Edit
               </Button>
               <Button
-                className="bg-black hover:bg-indigo-400 ml-5"
+                className="bg-slate-700 hover:bg-slate-500 text-white ml-5"
                 radius="md"
                 size="md"
                 onClick={props.openDeleteModal}
