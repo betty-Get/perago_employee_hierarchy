@@ -9,7 +9,7 @@ function Navbar() {
       <div className="h-[150px] w-full p-8 flex space-x-96 border-b shadow-xl">
         <div>
           <Button
-            className="text-slate-700 hover:bg-white hover:text-lime-600 ml-5 text-[20px]"
+            className="bg-slate-700 hover:bg-slate-500 text-white ml-5 text-[20px]"
             radius="md"
             size="lg"
             onClick={() => navigate("/")}
